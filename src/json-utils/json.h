@@ -1,4 +1,13 @@
+#include <stdint.h>
+
 #pragma once
+
+typedef enum {
+    CHAR,
+    INT,
+    FLOAT,
+    STRING
+} TYPE;
 
 typedef struct JSONobj
 {
@@ -7,8 +16,16 @@ typedef struct JSONobj
     struct JSONobj *child;
 
     char *name;
-    void *data;
+    union data
+    {
+        char* string;
+        uint32_t integer;
+        double fpoint;
+    } value;
+    
 
 } JSONobj;
 
-JSONobj* json_parse_string(char* string);
+
+void json_parse_string(char* string, uint32_t len);
+JSONobj* init_json_obj(const char *name, void* data, TYPE type);

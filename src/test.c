@@ -23,15 +23,13 @@ int main()
 
     if (numbytes > 1024)
     {
-        perror("too long file");
+        printf("File too long!");
         return 1;
     }
 
     fread(string, sizeof(*string), numbytes, json_file);
 
-    JSONobj *freeme = json_parse_string(string);
-
-    free(freeme);
+    json_parse_string(string, numbytes);
 
     fclose(json_file);
 
